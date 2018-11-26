@@ -6,16 +6,17 @@ const path = require("path");
 
 const app = express();
 
-const template = fs.readFileSync(path.join(__dirname, "../client/template.html"), "utf-8");  //服务端的模板
+const template = fs.readFileSync(path.join(__dirname, "../dist/index.html"), "utf8");  //服务端的模板
 
-app.use('./public', express.static(path.join(__dirname, '../dist')));
+app.use('/public', express.static(path.join(__dirname, '../dist')));
+
 app.get("*", function (req, res) {
   const appString = ReactSSR.renderToString(serverEntry);
-  template.replace('<app></app>', appString);
-  res.send(appString);
+  res.send(template.replace('<app><app/>', appString));
 });
 
 
-app.listen(6666, function () {
-  console.log("This server is listening on 3333");
+app.listen(2365, function () {
+  console.log("This server is listening on " +
+    "2365");
 });
